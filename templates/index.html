@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreditWise — Loan Decision Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="ledger">
+
+  <header class="ledger__header">
+    <div class="ledger__mark">CW</div>
+    <div>
+      <h1>CreditWise</h1>
+      <p class="ledger__sub">Loan Decision Ledger — Entry Form</p>
+    </div>
+  </header>
+
+  <div class="ledger__body">
+
+    <form class="entry" method="POST" action="/predict">
+
+      <section class="entry__group">
+        <h2><span class="entry__index">01</span> Applicant</h2>
+        <div class="entry__grid">
+          <label>
+            <span>Gender</span>
+            <select name="Gender">
+              {% for opt in options.Gender %}
+              <option value="{{ opt }}" {% if form_values and form_values.Gender==opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <span>Marital status</span>
+            <select name="Marital_Status">
+              {% for opt in options.Marital_Status %}
+              <option value="{{ opt }}" {% if form_values and form_values.Marital_Status==opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <span>Education level</span>
+            <select name="Education_Level">
+              {% for opt in options.Education_Level %}
+              <option value="{{ opt }}" {% if form_values and form_values.Education_Level==opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <span>Age</span>
+            <input type="number" name="Age" min="18" max="70" value="{{ form_values.Age if form_values else 42 }}" required>
+          </label>
+          <label>
+            <span>Dependents</span>
+            <input type="number" name="Dependents" min="0" max="6" value="{{ form_values.Dependents if form_values else 0 }}" required>
+          </label>
+        </div>
+      </section>
+
+      <section class="entry__group">
+        <h2><span class="entry__index">02</span> Employment</h2>
+        <div class="entry__grid">
+          <label>
+            <span>Employment status</span>
+            <select name="Employment_Status">
+              {% for opt in options.Employment_Status %}
+              <option value="{{ opt }}" {% if form_values and form_values.Employment_Status==opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <span>Employer category</span>
+            <select name="Employer_Category">
+              {% for opt in options.Employer_Category %}
+              <option value="{{ opt }}" {% if form_values and form_values.Employer_Category==opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="entry__group">
+        <h2><span class="entry__index">03</span> Income &amp; savings</h2>
+        <div class="entry__grid">
+          <label>
+            <span>Applicant income (monthly)</span>
+            <input type="number" name="Applicant_Income" min="2000" max="200000" value="{{ form_values.Applicant_Income if form_values else 9400 }}" required>
+          </label>
+          <label>
+            <span>Co-applicant income (monthly)</span>
+            <input type="number" name="Coapplicant_Income" min="0" max="100000" value="{{ form_values.Coapplicant_Income if form_values else 8173 }}" required>
+          </label>
+          <label>
+            <span>Savings</span>
+            <input type="number" name="Savings" min="0" max="20000" value="{{ form_values.Savings if form_values else 558 }}" required>
+          </label>
+          <label>
+            <span>Collateral value</span>
+            <input type="number" name="Collateral_Value" min="0" max="50000" value="{{ form_values.Collateral_Value if form_values else 13939 }}" required>
+          </label>
+        </div>
+      </section>
+
+      <section class="entry__group">
+        <h2><span class="entry__index">04</span> Credit standing</h2>
+        <div class="entry__grid">
+          <label>
+            <span>Credit score</span>
+            <input type="number" name="Credit_Score" min="300" max="900" value="{{ form_values.Credit_Score if form_values else 780 }}" required>
+          </label>
+          <label>
+            <span>Existing loans</span>
+            <input type="number" name="Existing_Loans" min="0" max="10" value="{{ form_values.Existing_Loans if form_values else 0 }}" required>
+          </label>
+          <label>
+            <span>Debt-to-income ratio</span>
+            <input type="number" step="0.01" name="DTI_Ratio" min="0" max="1" value="{{ form_values.DTI_Ratio if form_values else 0.22 }}" required>
+          </label>
+        </div>
+      </section>
+
+      <section class="entry__group">
+        <h2><span class="entry__index">05</span> Loan request</h2>
+        <div class="entry__grid">
+          <label>
+            <span>Loan purpose</span>
+            <select name="Loan_Purpose">
+              {% for opt in options.Loan_Purpose %}
+              <option value="{{ opt }}" {% if form_values and form_values.Loan_Purpose==opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <span>Property area</span>
+            <select name="Property_Area">
+              {% for opt in options.Property_Area %}
+              <option value="{{ opt }}" {% if form_values and form_values.Property_Area==opt %}selected{% endif %}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <span>Loan amount requested</span>
+            <input type="number" name="Loan_Amount" min="500" max="50000" value="{{ form_values.Loan_Amount if form_values else 21976 }}" required>
+          </label>
+          <label>
+            <span>Loan term (months)</span>
+            <input type="number" name="Loan_Term" min="6" max="120" value="{{ form_values.Loan_Term if form_values else 12 }}" required>
+          </label>
+        </div>
+      </section>
+
+      <button type="submit" class="entry__submit">Assess application</button>
+
+    </form>
+
+    <aside class="verdict {% if result %}verdict--active{% endif %}">
+      {% if result %}
+        <div class="stamp {{ 'stamp--approved' if result.approved else 'stamp--rejected' }}">
+          {{ "APPROVED" if result.approved else "DECLINED" }}
+        </div>
+        <dl class="verdict__figures">
+          <div>
+            <dt>Approval probability</dt>
+            <dd>{{ result.approve_prob }}%</dd>
+          </div>
+          <div>
+            <dt>Rejection probability</dt>
+            <dd>{{ result.reject_prob }}%</dd>
+          </div>
+        </dl>
+        <p class="verdict__note">
+          Model: logistic regression, trained on historical loan outcomes.
+          This is an automated estimate, not a final credit decision.
+        </p>
+      {% else %}
+        <div class="verdict__placeholder">
+          <p class="verdict__placeholder-mark">—</p>
+          <p>Fill in the ledger and submit to see the decision here.</p>
+        </div>
+      {% endif %}
+    </aside>
+
+  </div>
+
+</div>
+
+</body>
+</html>
