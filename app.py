@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import joblib
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -77,6 +77,16 @@ def build_customer_dataframe(form) -> pd.DataFrame:
 
 
 @app.route("/")
+def home():
+    return redirect(url_for('landing'))
+
+
+@app.route("/landing")
+def landing():
+    return render_template("landing.html")
+
+
+@app.route("/app")
 def index():
     return render_template(
         "index.html",

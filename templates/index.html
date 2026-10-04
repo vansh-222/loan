@@ -1,193 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CreditWise — Loan Decision Ledger</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LoanWise - Credit Predictor</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
 </head>
-<body>
+<body class="bg-[#0b132b] text-gray-900 antialiased selection:bg-orange-500 selection:text-white min-h-screen flex flex-col">
 
-<div class="ledger">
+  <!-- ================= NAVBAR ================= -->
+  <header class="bg-[#030919] py-5 w-full z-50 border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="/landing" class="flex items-center space-x-2">
+        <div class="text-orange-500 font-bold text-2xl flex items-center justify-center -rotate-90 mr-1">
+          <i class="fa-solid fa-play"></i>
+        </div>
+        <span class="text-white text-2xl font-bold tracking-tight">Loan<span class="text-orange-500">Wise</span></span>
+      </a>
 
-  <header class="ledger__header">
-    <div class="ledger__mark">CW</div>
-    <div>
-      <h1>CreditWise</h1>
-      <p class="ledger__sub">Loan Decision Ledger — Entry Form</p>
+      <!-- Back Link -->
+      <div>
+        <a href="/landing" class="text-gray-400 hover:text-white transition text-sm font-medium flex items-center gap-2">
+          <i class="fa-solid fa-arrow-left"></i> Back to Home
+        </a>
+      </div>
     </div>
   </header>
 
-  <div class="ledger__body">
+  <!-- ================= APP CONTENT ================= -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+    
+    <div class="mb-10 text-center lg:text-left">
+      <span class="text-orange-500 text-xs font-bold uppercase tracking-widest block mb-2">LOAN DECISION ENGINE</span>
+      <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">Predict Your Eligibility</h1>
+      <p class="text-gray-400 mt-3 max-w-2xl text-sm">Enter your details below to get an instant, AI-powered estimate of your loan approval probability. This is a soft inquiry and won't affect your credit score.</p>
+    </div>
 
-    <form class="entry" method="POST" action="/predict">
-
-      <section class="entry__group">
-        <h2><span class="entry__index">01</span> Applicant</h2>
-        <div class="entry__grid">
-          <label>
-            <span>Gender</span>
-            <select name="Gender">
-              {% for opt in options.Gender %}
-              <option value="{{ opt }}" {% if form_values and form_values.Gender==opt %}selected{% endif %}>{{ opt }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <label>
-            <span>Marital status</span>
-            <select name="Marital_Status">
-              {% for opt in options.Marital_Status %}
-              <option value="{{ opt }}" {% if form_values and form_values.Marital_Status==opt %}selected{% endif %}>{{ opt }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <label>
-            <span>Education level</span>
-            <select name="Education_Level">
-              {% for opt in options.Education_Level %}
-              <option value="{{ opt }}" {% if form_values and form_values.Education_Level==opt %}selected{% endif %}>{{ opt }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <label>
-            <span>Age</span>
-            <input type="number" name="Age" min="18" max="70" value="{{ form_values.Age if form_values else 42 }}" required>
-          </label>
-          <label>
-            <span>Dependents</span>
-            <input type="number" name="Dependents" min="0" max="6" value="{{ form_values.Dependents if form_values else 0 }}" required>
-          </label>
-        </div>
-      </section>
-
-      <section class="entry__group">
-        <h2><span class="entry__index">02</span> Employment</h2>
-        <div class="entry__grid">
-          <label>
-            <span>Employment status</span>
-            <select name="Employment_Status">
-              {% for opt in options.Employment_Status %}
-              <option value="{{ opt }}" {% if form_values and form_values.Employment_Status==opt %}selected{% endif %}>{{ opt }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <label>
-            <span>Employer category</span>
-            <select name="Employer_Category">
-              {% for opt in options.Employer_Category %}
-              <option value="{{ opt }}" {% if form_values and form_values.Employer_Category==opt %}selected{% endif %}>{{ opt }}</option>
-              {% endfor %}
-            </select>
-          </label>
-        </div>
-      </section>
-
-      <section class="entry__group">
-        <h2><span class="entry__index">03</span> Income &amp; savings</h2>
-        <div class="entry__grid">
-          <label>
-            <span>Applicant income (monthly)</span>
-            <input type="number" name="Applicant_Income" min="2000" max="200000" value="{{ form_values.Applicant_Income if form_values else 9400 }}" required>
-          </label>
-          <label>
-            <span>Co-applicant income (monthly)</span>
-            <input type="number" name="Coapplicant_Income" min="0" max="100000" value="{{ form_values.Coapplicant_Income if form_values else 8173 }}" required>
-          </label>
-          <label>
-            <span>Savings</span>
-            <input type="number" name="Savings" min="0" max="20000" value="{{ form_values.Savings if form_values else 558 }}" required>
-          </label>
-          <label>
-            <span>Collateral value</span>
-            <input type="number" name="Collateral_Value" min="0" max="50000" value="{{ form_values.Collateral_Value if form_values else 13939 }}" required>
-          </label>
-        </div>
-      </section>
-
-      <section class="entry__group">
-        <h2><span class="entry__index">04</span> Credit standing</h2>
-        <div class="entry__grid">
-          <label>
-            <span>Credit score</span>
-            <input type="number" name="Credit_Score" min="300" max="900" value="{{ form_values.Credit_Score if form_values else 780 }}" required>
-          </label>
-          <label>
-            <span>Existing loans</span>
-            <input type="number" name="Existing_Loans" min="0" max="10" value="{{ form_values.Existing_Loans if form_values else 0 }}" required>
-          </label>
-          <label>
-            <span>Debt-to-income ratio</span>
-            <input type="number" step="0.01" name="DTI_Ratio" min="0" max="1" value="{{ form_values.DTI_Ratio if form_values else 0.22 }}" required>
-          </label>
-        </div>
-      </section>
-
-      <section class="entry__group">
-        <h2><span class="entry__index">05</span> Loan request</h2>
-        <div class="entry__grid">
-          <label>
-            <span>Loan purpose</span>
-            <select name="Loan_Purpose">
-              {% for opt in options.Loan_Purpose %}
-              <option value="{{ opt }}" {% if form_values and form_values.Loan_Purpose==opt %}selected{% endif %}>{{ opt }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <label>
-            <span>Property area</span>
-            <select name="Property_Area">
-              {% for opt in options.Property_Area %}
-              <option value="{{ opt }}" {% if form_values and form_values.Property_Area==opt %}selected{% endif %}>{{ opt }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <label>
-            <span>Loan amount requested</span>
-            <input type="number" name="Loan_Amount" min="500" max="50000" value="{{ form_values.Loan_Amount if form_values else 21976 }}" required>
-          </label>
-          <label>
-            <span>Loan term (months)</span>
-            <input type="number" name="Loan_Term" min="6" max="120" value="{{ form_values.Loan_Term if form_values else 12 }}" required>
-          </label>
-        </div>
-      </section>
-
-      <button type="submit" class="entry__submit">Assess application</button>
-
-    </form>
-
-    <aside class="verdict {% if result %}verdict--active{% endif %}">
-      {% if result %}
-        <div class="stamp {{ 'stamp--approved' if result.approved else 'stamp--rejected' }}">
-          {{ "APPROVED" if result.approved else "DECLINED" }}
-        </div>
-        <dl class="verdict__figures">
+    <div class="flex flex-col lg:flex-row gap-10 items-start">
+      
+      <!-- Left: Form -->
+      <div class="w-full lg:w-2/3 bg-[#0a1128] border border-blue-500/10 rounded-[2rem] p-8 sm:p-10 shadow-2xl">
+        <form method="POST" action="/predict" class="space-y-12">
+          
+          <!-- 01 Applicant -->
           <div>
-            <dt>Approval probability</dt>
-            <dd>{{ result.approve_prob }}%</dd>
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+              <span class="w-8 h-8 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center font-bold text-sm">01</span>
+              <h2 class="text-xl font-bold text-white">Applicant Profile</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Gender</span>
+                <select name="Gender" class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500 appearance-none">
+                  {% for opt in options.Gender %}
+                  <option value="{{ opt }}" {% if form_values and form_values.Gender==opt %}selected{% endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Marital status</span>
+                <select name="Marital_Status" class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500 appearance-none">
+                  {% for opt in options.Marital_Status %}
+                  <option value="{{ opt }}" {% if form_values and form_values.Marital_Status==opt %}selected{% endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Education level</span>
+                <select name="Education_Level" class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500 appearance-none">
+                  {% for opt in options.Education_Level %}
+                  <option value="{{ opt }}" {% if form_values and form_values.Education_Level==opt %}selected{% endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <div class="grid grid-cols-2 gap-4">
+                <label class="block">
+                  <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Age</span>
+                  <input type="number" name="Age" min="18" max="70" value="{{ form_values.Age if form_values else 42 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+                </label>
+                <label class="block">
+                  <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Dependents</span>
+                  <input type="number" name="Dependents" min="0" max="6" value="{{ form_values.Dependents if form_values else 0 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+                </label>
+              </div>
+            </div>
           </div>
+
+          <!-- 02 Employment -->
           <div>
-            <dt>Rejection probability</dt>
-            <dd>{{ result.reject_prob }}%</dd>
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+              <span class="w-8 h-8 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-sm">02</span>
+              <h2 class="text-xl font-bold text-white">Employment</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Employment status</span>
+                <select name="Employment_Status" class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500 appearance-none">
+                  {% for opt in options.Employment_Status %}
+                  <option value="{{ opt }}" {% if form_values and form_values.Employment_Status==opt %}selected{% endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Employer category</span>
+                <select name="Employer_Category" class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500 appearance-none">
+                  {% for opt in options.Employer_Category %}
+                  <option value="{{ opt }}" {% if form_values and form_values.Employer_Category==opt %}selected{% endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+            </div>
           </div>
-        </dl>
-        <p class="verdict__note">
-          Model: logistic regression, trained on historical loan outcomes.
-          This is an automated estimate, not a final credit decision.
-        </p>
-      {% else %}
-        <div class="verdict__placeholder">
-          <p class="verdict__placeholder-mark">—</p>
-          <p>Fill in the ledger and submit to see the decision here.</p>
-        </div>
-      {% endif %}
-    </aside>
 
-  </div>
+          <!-- 03 Income -->
+          <div>
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+              <span class="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-sm">03</span>
+              <h2 class="text-xl font-bold text-white">Income & Savings</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Applicant Income (Mo)</span>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">₹</div>
+                  <input type="number" name="Applicant_Income" min="2000" max="200000" value="{{ form_values.Applicant_Income if form_values else 9400 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl pl-8 pr-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+                </div>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Co-Applicant Income</span>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">₹</div>
+                  <input type="number" name="Coapplicant_Income" min="0" max="100000" value="{{ form_values.Coapplicant_Income if form_values else 8173 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl pl-8 pr-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+                </div>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Savings</span>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">₹</div>
+                  <input type="number" name="Savings" min="0" max="20000" value="{{ form_values.Savings if form_values else 558 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl pl-8 pr-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+                </div>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Collateral Value</span>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">₹</div>
+                  <input type="number" name="Collateral_Value" min="0" max="50000" value="{{ form_values.Collateral_Value if form_values else 13939 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl pl-8 pr-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+                </div>
+              </label>
+            </div>
+          </div>
 
-</div>
+          <!-- 04 Credit -->
+          <div>
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+              <span class="w-8 h-8 rounded-full bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold text-sm">04</span>
+              <h2 class="text-xl font-bold text-white">Credit Standing</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Credit score</span>
+                <input type="number" name="Credit_Score" min="300" max="900" value="{{ form_values.Credit_Score if form_values else 780 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Existing loans</span>
+                <input type="number" name="Existing_Loans" min="0" max="10" value="{{ form_values.Existing_Loans if form_values else 0 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">DTI ratio</span>
+                <input type="number" step="0.01" name="DTI_Ratio" min="0" max="1" value="{{ form_values.DTI_Ratio if form_values else 0.22 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+              </label>
+            </div>
+          </div>
+
+          <!-- 05 Loan Request -->
+          <div>
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+              <span class="w-8 h-8 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center font-bold text-sm">05</span>
+              <h2 class="text-xl font-bold text-white">Loan Request</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Loan purpose</span>
+                <select name="Loan_Purpose" class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500 appearance-none">
+                  {% for opt in options.Loan_Purpose %}
+                  <option value="{{ opt }}" {% if form_values and form_values.Loan_Purpose==opt %}selected{% endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Property area</span>
+                <select name="Property_Area" class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500 appearance-none">
+                  {% for opt in options.Property_Area %}
+                  <option value="{{ opt }}" {% if form_values and form_values.Property_Area==opt %}selected{% endif %}>{{ opt }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Loan amount requested</span>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500">₹</div>
+                  <input type="number" name="Loan_Amount" min="500" max="50000" value="{{ form_values.Loan_Amount if form_values else 21976 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl pl-8 pr-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+                </div>
+              </label>
+              <label class="block">
+                <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 block">Loan term (months)</span>
+                <input type="number" name="Loan_Term" min="6" max="120" value="{{ form_values.Loan_Term if form_values else 12 }}" required class="w-full bg-[#030919] border border-gray-700 rounded-xl px-4 py-3 text-sm font-medium text-gray-200 outline-none focus:border-orange-500">
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="pt-6">
+            <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 text-lg">
+              Analyze Application <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Right: Verdict Panel -->
+      <div class="w-full lg:w-1/3 lg:sticky lg:top-24">
+        
+        {% if result %}
+          <div class="bg-gradient-to-b from-[#0a1128] to-[#030919] border border-white/10 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden">
+            <!-- decorative glow -->
+            <div class="absolute top-0 right-0 w-32 h-32 {{ 'bg-emerald-500/20' if result.approved else 'bg-red-500/20' }} blur-[50px]"></div>
+            
+            <div class="text-center mb-8 relative z-10">
+              <span class="text-gray-400 text-xs font-bold uppercase tracking-widest block mb-4">DECISION RESULT</span>
+              
+              {% if result.approved %}
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-500/10 border-2 border-emerald-500 text-emerald-500 text-3xl mb-4 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                  <i class="fa-solid fa-check"></i>
+                </div>
+                <h3 class="text-3xl font-extrabold text-emerald-400 tracking-tight">APPROVED</h3>
+                <p class="text-emerald-500/70 text-sm mt-2">Congratulations, you meet the criteria!</p>
+              {% else %}
+                <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-500/10 border-2 border-red-500 text-red-500 text-3xl mb-4 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                  <i class="fa-solid fa-xmark"></i>
+                </div>
+                <h3 class="text-3xl font-extrabold text-red-400 tracking-tight">DECLINED</h3>
+                <p class="text-red-500/70 text-sm mt-2">Unfortunately, you do not meet the criteria.</p>
+              {% endif %}
+            </div>
+
+            <div class="bg-[#030919] rounded-xl p-5 border border-white/5 space-y-4 mb-6 relative z-10">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400 text-sm">Approval Probability</span>
+                <span class="text-white font-bold">{{ result.approve_prob }}%</span>
+              </div>
+              <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full" style="width: {{ result.approve_prob }}%"></div>
+              </div>
+              
+              <div class="flex justify-between items-center pt-2 border-t border-white/5">
+                <span class="text-gray-400 text-sm">Rejection Probability</span>
+                <span class="text-white font-bold">{{ result.reject_prob }}%</span>
+              </div>
+            </div>
+            
+            <p class="text-gray-500 text-[11px] leading-relaxed text-center">
+              <i class="fa-solid fa-robot mr-1"></i> Model: logistic regression. This is an automated AI estimate, not a final credit decision.
+            </p>
+          </div>
+        {% else %}
+          <div class="bg-[#0a1128]/50 border border-white/5 rounded-[2rem] p-10 flex flex-col items-center justify-center text-center h-[400px]">
+            <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-gray-500 text-2xl mb-6">
+              <i class="fa-solid fa-chart-pie"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Awaiting Data</h3>
+            <p class="text-gray-400 text-sm max-w-[200px]">Fill in the profile details and submit to see your AI-powered loan decision.</p>
+          </div>
+        {% endif %}
+        
+      </div>
+    </div>
+  </main>
+
+  <footer class="mt-auto border-t border-white/5 py-8 text-center text-gray-500 text-xs">
+    <p>&copy; 2026 LoanWise Inc. All rights reserved.</p>
+  </footer>
 
 </body>
 </html>
