@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LoanWise - Know Your Loan Eligibility Before You Apply</title>
+  <title>LoanMark - Know Your Loan Eligibility Before You Apply</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
@@ -30,13 +31,13 @@
       </div>
 
       <!-- Navigation Links -->
-      <nav class="hidden md:flex items-center space-x-8 text-[13px] font-medium text-gray-300">
-        <a href="#home" class="text-white border-b-2 border-orange-500 pb-1">Home</a>
-        <a href="#rates" class="hover:text-white transition">Rates</a>
-        <a href="#loan-types" class="hover:text-white transition">Loan Types</a>
-        <a href="#calculator" class="hover:text-white transition">Calculator</a>
-        <a href="#features" class="hover:text-white transition">Features</a>
-        <a href="#faq" class="hover:text-white transition">FAQ</a>
+      <nav id="desktop-nav" class="hidden md:flex items-center space-x-8 text-[13px] font-medium text-gray-300">
+        <a href="#home" class="nav-link text-white border-b-2 border-orange-500 pb-1">Home</a>
+        <a href="#rates" class="nav-link hover:text-white transition pb-1 border-b-2 border-transparent">Rates</a>
+        <a href="#loan-types" class="nav-link hover:text-white transition pb-1 border-b-2 border-transparent">Loan Types</a>
+        <a href="#calculator" class="nav-link hover:text-white transition pb-1 border-b-2 border-transparent">Calculator</a>
+        <a href="#features" class="nav-link hover:text-white transition pb-1 border-b-2 border-transparent">Features</a>
+        <a href="#faq" class="nav-link hover:text-white transition pb-1 border-b-2 border-transparent">FAQ</a>
       </nav>
 
       <!-- Right Actions -->
@@ -214,7 +215,7 @@
         <div>
           <div class="flex items-center gap-3 mb-5">
             <span class="block w-1 h-5 bg-orange-500 rounded-full"></span>
-            <span class="text-gray-500 text-xs font-bold uppercase tracking-widest">LOAN TYPE</span>
+            <span class="text-gray-500 text-xs font-bold uppercase tracking-widest">LOAN BENIFITS</span>
           </div>
           <h2 class="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold text-gray-900 leading-[1.08] tracking-tight">
             Competitive Rates To<br>
@@ -340,7 +341,7 @@
         <div
           class="bg-white rounded-2xl overflow-hidden flex flex-row shadow-sm hover:shadow-md transition-shadow duration-200">
           <div class="w-40 shrink-0">
-            <img src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=400&auto=format&fit=crop"
+            <img src="{{ url_for('static', filename='car_lease_vector_1791140168443.jpg') }}"
               alt="Car Leases" class="w-full h-full object-cover">
           </div>
           <div class="p-5 flex flex-col justify-center">
@@ -362,7 +363,7 @@
         <div
           class="bg-white rounded-2xl overflow-hidden flex flex-row shadow-sm hover:shadow-md transition-shadow duration-200">
           <div class="w-40 shrink-0">
-            <img src="https://images.unsplash.com/photo-1541443131876-a4246f202648?q=80&w=400&auto=format&fit=crop"
+            <img src="{{ url_for('static', filename='personal_car_loan_vector_1791139807028.jpg') }}"
               alt="Personal car loans" class="w-full h-full object-cover">
           </div>
           <div class="p-5 flex flex-col justify-center">
@@ -389,7 +390,7 @@
       <div
         class="bg-white rounded-2xl overflow-hidden flex flex-row shadow-sm hover:shadow-md transition-shadow duration-200">
         <div class="w-56 shrink-0">
-          <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=500&auto=format&fit=crop"
+          <img src="{{ url_for('static', filename='novated_lease_vector_1791140457629.jpg') }}"
             alt="Novated Car Leases" class="w-full h-full object-cover">
         </div>
         <div class="p-6 flex flex-col justify-center">
@@ -455,10 +456,10 @@
               <div class="relative border border-gray-200 rounded-lg overflow-hidden mb-3">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500 text-sm">
                   ₹</div>
-                <input type="text" value="5,00,000"
-                  class="w-full pl-8 pr-4 py-3 text-sm font-medium text-gray-700 outline-none focus:border-orange-500">
+                <input type="text" id="amount-val" value="5,00,000" readonly
+                  class="w-full pl-8 pr-4 py-3 text-sm font-medium text-gray-700 outline-none focus:border-orange-500 bg-gray-50">
               </div>
-              <input type="range" min="50000" max="5000000" step="50000" value="500000"
+              <input type="range" id="loan-amount" min="50000" max="5000000" step="50000" value="500000"
                 class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500">
               <div class="flex justify-between text-xs text-gray-400 mt-2 font-medium">
                 <span>₹ 50,000</span>
@@ -470,13 +471,13 @@
             <div>
               <label class="block text-sm font-bold text-gray-800 mb-2">Annual Interest Rate</label>
               <div class="relative border border-gray-200 rounded-lg overflow-hidden mb-3">
-                <input type="text" value="9.2"
-                  class="w-full pl-4 pr-8 py-3 text-sm font-medium text-gray-700 outline-none focus:border-orange-500">
+                <input type="text" id="rate-val" value="9.2" readonly
+                  class="w-full pl-4 pr-8 py-3 text-sm font-medium text-gray-700 outline-none focus:border-orange-500 bg-gray-50">
                 <div
                   class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-500 text-sm">%
                 </div>
               </div>
-              <input type="range" min="5" max="20" step="0.1" value="9.2"
+              <input type="range" id="loan-rate" min="5" max="20" step="0.1" value="9.2"
                 class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500">
               <div class="flex justify-between text-xs text-gray-400 mt-2 font-medium">
                 <span>5%</span>
@@ -488,11 +489,11 @@
             <div>
               <label class="block text-sm font-bold text-gray-800 mb-2">Loan Tenure</label>
               <div class="relative mb-3">
-                <select
+                <select id="loan-term"
                   class="w-full border border-gray-200 rounded-lg pl-4 pr-10 py-3 text-sm font-medium text-gray-700 outline-none focus:border-orange-500 appearance-none bg-white">
-                  <option>5 years</option>
-                  <option>10 years</option>
-                  <option>15 years</option>
+                  <option value="5">5 years</option>
+                  <option value="10">10 years</option>
+                  <option value="15">15 years</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -507,11 +508,11 @@
             <div>
               <label class="block text-sm font-bold text-gray-800 mb-2">Repayment Frequency</label>
               <div class="relative">
-                <select
+                <select id="payment-freq"
                   class="w-full border border-gray-200 rounded-lg pl-4 pr-10 py-3 text-sm font-medium text-gray-700 outline-none focus:border-orange-500 appearance-none bg-white">
-                  <option>Monthly</option>
-                  <option>Fortnightly</option>
-                  <option>Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="fortnightly">Fortnightly</option>
+                  <option value="weekly">Weekly</option>
                 </select>
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-gray-400">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -531,7 +532,7 @@
 
             <div class="mb-6">
               <span class="text-sm font-medium text-gray-600 block mb-2">Monthly EMI</span>
-              <div class="text-[2rem] font-bold text-orange-500 leading-none">
+              <div id="monthly-emi" class="text-[2rem] font-bold text-orange-500 leading-none">
                 ₹10,418 <span class="text-xl">/ month</span>
               </div>
             </div>
@@ -539,11 +540,11 @@
             <div class="space-y-4 mb-8">
               <div class="flex justify-between items-center text-sm">
                 <span class="text-gray-500 font-medium">Total interest</span>
-                <span class="font-bold text-gray-800">₹1,25,080</span>
+                <span id="total-interest" class="font-bold text-gray-800">₹1,25,080</span>
               </div>
               <div class="flex justify-between items-center text-sm">
                 <span class="text-gray-500 font-medium">Total repayment</span>
-                <span class="font-bold text-gray-800">₹6,25,080</span>
+                <span id="total-payment" class="font-bold text-gray-800">₹6,25,080</span>
               </div>
             </div>
 
@@ -894,8 +895,8 @@
       const years = parseInt(termSelect.value);
       const frequency = freqSelect.value;
 
-      amountValText.innerText = formatCurrency(principal);
-      rateValText.innerText = annualRate.toFixed(1) + '%';
+      amountValText.value = Math.round(principal).toLocaleString('en-IN');
+      rateValText.value = annualRate.toFixed(1);
 
       let periodsPerYear = 12;
       if (frequency === 'fortnightly') periodsPerYear = 26;
@@ -930,6 +931,48 @@
 
     // Run initial calculation on load
     calculateEMI();
+
+    // Scroll Spy for Active Nav Links
+    document.addEventListener("DOMContentLoaded", () => {
+      const navLinks = document.querySelectorAll('#desktop-nav .nav-link');
+      const sections = document.querySelectorAll('section');
+
+      function onScroll() {
+        let current = 'home';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (window.scrollY >= (sectionTop - 200)) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('text-white', 'border-orange-500');
+            link.classList.remove('border-transparent');
+          } else {
+            link.classList.remove('text-white', 'border-orange-500');
+            link.classList.add('border-transparent');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', onScroll);
+      // Run once on load
+      onScroll();
+
+      // Allow manual clicking to smooth scroll and update active state immediately
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          navLinks.forEach(l => {
+            l.classList.remove('text-white', 'border-orange-500');
+            l.classList.add('border-transparent');
+          });
+          e.currentTarget.classList.add('text-white', 'border-orange-500');
+          e.currentTarget.classList.remove('border-transparent');
+        });
+      });
+    });
   </script>
 </body>
 
