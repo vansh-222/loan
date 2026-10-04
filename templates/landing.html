@@ -23,11 +23,10 @@
   <header class="bg-[#030919] pt-6 pb-4 w-full z-50 sticky top-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
       <!-- Logo -->
-      <div class="flex items-center space-x-2">
-        <div class="text-orange-500 font-bold text-2xl flex items-center justify-center -rotate-90 mr-1">
-          <i class="fa-solid fa-play"></i>
-        </div>
-        <span class="text-white text-2xl font-bold tracking-tight">Loan<span class="text-orange-500">Wise</span></span>
+      <div class="flex items-center">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="LoanMark Logo" class="h-10 w-auto">
+         <span class="text-white text-2xl font-extrabold tracking-tight">Loan<span
+                class="text-orange-500">Mark</span></span>
       </div>
 
       <!-- Navigation Links -->
@@ -135,74 +134,45 @@
       <!-- Right Column: Interactive App Graphic -->
       <div class="lg:col-span-6 relative flex justify-end h-[500px]">
 
-        <!-- Main Glass Panel -->
-        <div
-          class="absolute right-24 sm:right-32 top-4 w-72 h-[420px] bg-gradient-to-b from-blue-500/10 to-blue-900/5 backdrop-blur-md border border-blue-400/30 rounded-[2rem] p-6 shadow-[0_0_40px_rgba(37,99,235,0.15)] flex flex-col shadow-blue-500/20 z-10">
-          <h3 class="text-white text-lg font-semibold mb-8">Loan Eligibility</h3>
+        <!-- Glowing background orb -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-orange-500/20 blur-[100px] rounded-full z-0"></div>
 
-          <!-- Circular Chart Mockup -->
-          <div class="flex items-center gap-6 mb-8">
-            <div
-              class="relative w-20 h-20 rounded-full border-[6px] border-gray-700 border-t-emerald-400 border-l-emerald-400 flex items-center justify-center">
-              <span class="text-xl font-bold text-white">₹</span>
-            </div>
-            <div class="flex flex-col gap-3 flex-1">
-              <div class="h-2.5 bg-blue-500/40 rounded-full w-full"></div>
-              <div class="h-2.5 bg-blue-500/40 rounded-full w-4/5"></div>
-              <div class="h-2.5 bg-blue-500/40 rounded-full w-full"></div>
-            </div>
-          </div>
-
-          <!-- EMI Box -->
-          <div class="bg-blue-900/40 border border-blue-500/30 rounded-xl p-4 flex items-center gap-4 mb-4">
-            <i class="fa-regular fa-calendar text-blue-400 text-xl"></i>
-            <div>
-              <div class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Estimated EMI</div>
-              <div class="text-white font-bold text-lg">₹ 12,450</div>
-            </div>
-          </div>
-
-          <!-- Eligible Box -->
-          <div class="bg-emerald-900/30 border border-emerald-500/30 rounded-xl p-4 flex items-center gap-4">
-            <div class="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs">
-              <i class="fa-solid fa-check"></i>
-            </div>
-            <div>
-              <div class="text-emerald-400 font-bold text-sm">You're Eligible</div>
-              <div class="text-[10px] text-gray-400 mt-0.5">Based on your profile</div>
-            </div>
-          </div>
+        <!-- Main Image Panel -->
+        <div class="absolute right-10 sm:right-24 top-2 w-[450px] h-auto z-10 transform transition duration-500 hover:scale-105 group">
+          <img src="{{ url_for('static', filename='hero_image_new.png') }}" alt="Man touching digital screen" class="w-full h-auto object-cover ">
         </div>
 
-        <!-- Floating Side Nodes (Connected by dashed lines in image) -->
-        <div class="absolute right-0 top-16 flex flex-col gap-10 z-20">
-          <div class="flex items-center gap-3">
+        <!-- Floating Side Nodes -->
+        <div class="absolute right-0 sm:right-2 top-70 flex flex-col gap-8 z-20">
+          <div class="flex items-center gap-3 transform -translate-x-4 animate-[bounce_3s_infinite_ease-in-out]">
             <div
-              class="w-12 h-12 rounded-full border-2 border-orange-500 flex items-center justify-center bg-[#030919] text-white font-bold text-lg shadow-lg shadow-orange-500/20 relative">
-              ₹
-              <div class="absolute -top-3 right-0 text-white text-[10px] rotate-45">/ \</div>
+              class="w-12 h-12 rounded-full border-2 border-orange-500 flex items-center justify-center bg-[#030919] text-white font-bold text-lg shadow-[0_0_20px_rgba(249,115,22,0.4)] relative">
+              <i class="fa-solid fa-bolt text-orange-500 text-sm"></i>
+              <div class="absolute -top-3 right-0 text-white text-[10px] rotate-45 opacity-50">/ \</div>
             </div>
-            <div class="text-white text-xs font-semibold leading-tight">Check<br>Eligibility</div>
+            <div class="text-white text-[10px] font-bold uppercase tracking-widest leading-tight">Instant<br>Decision</div>
           </div>
-          <div class="flex items-center gap-3">
+          
+          <div class="flex items-center gap-3 transform -translate-x-8 animate-[bounce_4s_infinite_ease-in-out]">
             <div
-              class="w-12 h-12 rounded-full border-2 border-blue-500 flex items-center justify-center bg-[#030919] text-blue-400 text-lg shadow-lg shadow-blue-500/20">
-              <i class="fa-solid fa-calculator"></i>
+              class="w-12 h-12 rounded-full border-2 border-blue-500 flex items-center justify-center bg-[#030919] text-blue-400 text-lg shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+              <i class="fa-solid fa-shield-halved text-sm"></i>
             </div>
-            <div class="text-white text-xs font-semibold leading-tight">Estimate<br>EMI</div>
+            <div class="text-white text-[10px] font-bold uppercase tracking-widest leading-tight">No Credit<br>Impact</div>
           </div>
-          <div class="flex items-center gap-3">
+          
+          <div class="flex items-center gap-3 transform -translate-x-2 animate-[bounce_3.5s_infinite_ease-in-out]">
             <div
-              class="w-12 h-12 rounded-full border-2 border-emerald-500 flex items-center justify-center bg-[#030919] text-emerald-400 text-lg shadow-lg shadow-emerald-500/20">
-              <i class="fa-regular fa-circle-check"></i>
+              class="w-12 h-12 rounded-full border-2 border-emerald-500 flex items-center justify-center bg-[#030919] text-emerald-400 text-lg shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+              <i class="fa-solid fa-chart-pie text-sm"></i>
             </div>
-            <div class="text-white text-xs font-semibold leading-tight">Plan Your<br>Loan</div>
+            <div class="text-white text-[10px] font-bold uppercase tracking-widest leading-tight">Custom<br>Rates</div>
           </div>
         </div>
 
         <!-- Floating Hand Pointer (Simulating user interacting) -->
         <div
-          class="absolute right-[45%] top-[45%] text-orange-300 text-4xl rotate-[-20deg] drop-shadow-[0_0_15px_rgba(251,146,60,0.5)] z-30">
+          class="absolute right-[40%] top-[40%] text-orange-400 text-4xl rotate-[-20deg] drop-shadow-[0_0_20px_rgba(249,115,22,0.6)] z-30 animate-pulse">
           <i class="fa-solid fa-hand-pointer"></i>
         </div>
 
@@ -695,12 +665,12 @@
 
           <div class="relative z-10 max-w-[420px] ml-auto mr-0 sm:mx-auto">
             <!-- Blue offset rectangle -->
-            <div class="absolute -top-6 -left-6 right-6 bottom-6 bg-[#030919] rounded-xl z-0"></div>
+            <div class="absolute -top-6 -left-6 right-6 bottom-6 bg-orange-500 rounded-xl z-0"></div>
 
             <!-- Main Image -->
-            <div class="relative z-10 rounded-xl overflow-hidden shadow-2xl h-[480px]">
-              <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=600&auto=format&fit=crop"
-                alt="Car driving on road" class="w-full h-full object-cover">
+            <div class="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl h-[480px] border border-[#0a1128]/10 shadow-[#f97316]/20">
+              <img src="{{ url_for('static', filename='loan_approval_steps_vector_1791138386698.jpg') }}"
+                alt="Loan approval steps dashboard" class="w-full h-full object-cover">
             </div>
 
             <!-- Floating Card: Loan Amount -->
@@ -828,13 +798,10 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
         <!-- Brand Col -->
         <div class="lg:col-span-4 space-y-6">
-          <div class="flex items-center space-x-2.5">
-            <div
-              class="bg-orange-500 text-white p-2 rounded-xl flex items-center justify-center font-bold text-lg shadow-lg shadow-orange-500/20">
-              <i class="fa-solid fa-wallet"></i>
-            </div>
-            <span class="text-white text-2xl font-extrabold tracking-tight">Loan<span
-                class="text-orange-500">Wise</span></span>
+          <div class="flex items-center">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="LoanMark Logo" class="h-12 w-auto">
+             <span class="text-white text-2xl font-extrabold tracking-tight">Loan<span
+                class="text-orange-500">Mark</span></span>
           </div>
           <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
             Know your loan eligibility instantly without a negative impact on your credit score. We match you with the
